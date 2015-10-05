@@ -8,7 +8,20 @@ import psycopg2
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-    return psycopg2.connect("dbname=tournament")
+'''
+##This stuff is for creating a cursor, but I don't know if I need it
+    con = None
+
+    con = psycopg2.connect(database=tournament) 
+    cur = con.cursor()
+    cur.execute('SELECT version()')          
+    ver = cur.fetchone()
+
+#It doesn't seem to make sense to close it at this point
+#    con:
+#        con.close()
+'''
+    return psycopg2.connect(dbname=tournament)
 
 
 def deleteMatches():
