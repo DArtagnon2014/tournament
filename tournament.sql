@@ -14,8 +14,27 @@ create table players (
 	dateCreated timestamp DEFAULT current timestamp
 );
 
-#Add Primary key
-ALTER TALBE tournament ADD PRIMARY KEY (id);
+create table pairs (
+	pair_id serial primary key,
+	id serial UNIQUE NOT NULL,
+	dateCreated timestamp DEFAULT current timestamp
+);
+
+create table matches (
+	match_id serial primary key,
+	pair_id serial UNIQUE NOT NULL,
+	winner_id serial,
+	dateCreated timestamp DEFAULT current timestamp
+);
+
+create table rounds (
+	round serial primary key,
+	match_id serial UNIQUE NOT NULL,
+	dateCreated timestamp DEFAULT current timestamp
+);
+
+#Add Primary key to players table
+ALTER TALBE players ADD PRIMARY KEY (id);
 
 #Create an Index
 #CREATE UNIQUE INDEX indexName ON tableName (columnNames);

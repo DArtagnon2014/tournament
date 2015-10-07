@@ -6,26 +6,22 @@
 import psycopg2
 
 
+
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-'''
-##This stuff is for creating a cursor, but I don't know if I need it
-    con = None
+    return psycopg2.connect("dbname=tournament")
 
-    con = psycopg2.connect(database=tournament) 
-    cur = con.cursor()
-    cur.execute('SELECT version()')          
-    ver = cur.fetchone()
-
-#It doesn't seem to make sense to close it at this point
-#    con:
-#        con.close()
-'''
-    return psycopg2.connect(dbname=tournament)
-
+#Drop the database at the begining to start fresh everytime this(code) is run
+def dropDB():
+    DB = connect()
+    cur = DB.cursor()
+    cur.execute("DROP DATABASE tournament")
+    DB.commit()
+    DB.close()
 
 def deleteMatches():
     """Remove all the match records from the database."""
+
 
 
 def deletePlayers():
@@ -45,7 +41,12 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-
+    DB = connect()
+    c = DB.cursor()
+    c.execute("INSERT INTO players (name) VALUES (%s)",
+        (name,))
+    DB.commit()
+    DB.close()
 
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
